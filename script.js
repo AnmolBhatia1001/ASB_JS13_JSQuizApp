@@ -33,31 +33,82 @@ const quizData = [
     },
 ];
 
-const quiz;
-const answerEls;
-const questionEl;
-const a_text;
-const b_text;
-const c_text;
-const d_text;
-const submitBtn;
+const quiz = document.getElementById("quiz");
+const answerEls = document.querySelectorAll(".answer");
+const question_text = document.getElementById("question");
+const a_text = document.getElementById("a_text");
+const b_text = document.getElementById("b_text");;
+const c_text = document.getElementById("c_text");;
+const d_text = document.getElementById("d_text");;
+const submitBtn = document.getElementById("submit");
 
 let currentQuiz = 0
 let score = 0
 
-loadQuiz()
+let correctAnswer = quizData[currentQuiz].correct;
+let userAnswer ; 
 
 function loadQuiz() {
+    question_text.innerText = quizData[currentQuiz].question
+    a_text.innerText = quizData[currentQuiz].a
+    b_text.innerText = quizData[currentQuiz].b
+    c_text.innerText = quizData[currentQuiz].c
+    d_text.innerText = quizData[currentQuiz].d
+}
+loadQuiz()
+
+function selectDeselect(){
+    for(let i =0; i<answerEls.length; i++){
+        answerEls[i].addEventListener("click",()=>{
+            if(answerEls[i].getAttribute("state") === "true"){
+                answerEls[i].checked = false
+                answerEls[i].setAttribute("state","false")
+                userAnswer = "" 
+                // console.log(userAnswer);
+                // console.log(answerEls[i].getAttribute("state"));
+            }else{
+                for(let j =0; j<answerEls.length; j++){
+                    answerEls[j].checked = false;
+                    answerEls[j].setAttribute("state", "false")
+                }
+                answerEls[i].checked = true
+                answerEls[i].setAttribute("state","true")
+                userAnswer = answerEls[i].getAttribute("id") 
+                // console.log(userAnswer);
+                // console.log(answerEls[i].getAttribute("state"));
+            }
+        })
+    }
+}
+selectDeselect()
+
+submitBtn.addEventListener("click",()=>{
     
-}
+        if(userAnswer === quizData[currentQuiz].correct){
+            console.log("Correct");
+            score++
+            if(currentQuiz === (quizData.length -1 )){
+                alert(`Your Score is : ${score}`)
+            }else{
+                currentQuiz++
+                loadQuiz()
+            }
+            
+        }else{
+            console.log("Wrong");
+            if(currentQuiz === (quizData.length -1 )){
+                alert(`Your Score is : ${score}`)
+            }else{
+                currentQuiz++
+                loadQuiz()
+            }
+            
+        }
+        for(let j =0; j<answerEls.length; j++){
+            answerEls[j].checked = false;
+            answerEls[j].setAttribute("state", "false")
+        }
 
-function deselectAnswers() {
-}
-
-function getSelected() {
     
-}
-
-submitBtn.addEventListener('click', () => {
     
 })
